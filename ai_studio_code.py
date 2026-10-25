@@ -386,13 +386,7 @@ with nav_cols[4]:
     ):
         st.session_state.active_tab = "csv"
         st.rerun()
-with nav_cols[5]:
-    if st.button("⊕ New Bill", key="nav_new_bill", type="primary", use_container_width=True):
-        st.session_state.cart = []
-        st.session_state.last_invoice = None
-        st.session_state.scan_feedback = None
-        st.session_state.active_tab = "billing"
-        st.rerun()
+
 
 st.markdown("<hr style='margin: 0.5rem 0 1.5rem 0; border-color:#E5E7EB;'/>", unsafe_allow_html=True)
 
@@ -735,23 +729,23 @@ if st.session_state.active_tab == "billing":
             grand_total = round(taxable + tax_amt, 2)
 
             st.markdown(
-                f"""
-                <div style="border-top:1px solid #E5E7EB;padding-top:14px;margin-top:8px;font-size:12.5px;">
-                    <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:6px;">
-                        <span>Subtotal</span>
-                        <span class="mono">${subtotal:.2f}</span>
-                    </div>
-                    {f'<div style="display:flex;justify-content:space-between;color:#047857;margin-bottom:6px;"><span>Discount ({int(discount_rate)}%)</span><span class="mono">-${discount_amt:.2f}</span></div>' if discount_amt > 0 else ''}
-                    <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:10px;">
-                        <span>Tax ({int(tax_rate)}%)</span>
-                        <span class="mono">${tax_amt:.2f}</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#111827;border-top:1px solid #F3F4F6;padding-top:10px;margin-bottom:12px;">
-                        <span>Grand Total</span>
-                        <span class="mono">${grand_total:.2f}</span>
-                    </div>
-                </div>
-                """,
+               ## f"""
+              #  <div style="border-top:1px solid #E5E7EB;padding-top:14px;margin-top:8px;font-size:12.5px;">
+                  #  <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:6px;">
+                      #  <span>Subtotal</span>
+                      #  <span class="mono">${subtotal:.2f}</span>
+                    #</div>
+                    #{f'<div style="display:flex;justify-content:space-between;color:#047857;margin-bottom:6px;"><span>Discount ({int(discount_rate)}%)</span><span class="mono">-${discount_amt:.2f}</span></div>' if discount_amt > 0 else ''}
+                   # <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:10px;">
+                      #  <span>Tax ({int(tax_rate)}%)</span>
+                      #  <span class="mono">${tax_amt:.2f}</span>
+                   # </div>
+                  #  <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#111827;border-top:1px solid #F3F4F6;padding-top:10px;margin-bottom:12px;">
+                    #    <span>Grand Total</span>
+                   #     <span class="mono">${grand_total:.2f}</span>
+                #    </div>
+               # </div>
+              #  """, 
                 unsafe_allow_html=True,
             )
 
@@ -909,7 +903,7 @@ elif st.session_state.active_tab == "inventory":
                 fc1, fc2, fc3, fc4 = st.columns(4)
                 with fc1:
                     f_name = st.text_input("Medicine Name *", placeholder="e.g. Ibuprofen 400mg")
-                    f_price = st.number_input("Unit Price ($) *", min_value=0.10, value=6.50, step=0.50)
+                    f_price = st.number_input("Unit Price (Rs) *", min_value=0.10, value=6.50, step=0.50)
                 with fc2:
                     f_sku = st.text_input("SKU Code", placeholder="e.g. IBU-400")
                     f_stock = st.number_input("Initial Stock *", min_value=0, value=40, step=1)
