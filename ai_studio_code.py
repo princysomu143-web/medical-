@@ -729,23 +729,23 @@ if st.session_state.active_tab == "billing":
             grand_total = round(taxable + tax_amt, 2)
 
             st.markdown(
-               ## f"""
-              #  <div style="border-top:1px solid #E5E7EB;padding-top:14px;margin-top:8px;font-size:12.5px;">
-                  #  <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:6px;">
-                      #  <span>Subtotal</span>
-                      #  <span class="mono">${subtotal:.2f}</span>
-                    #</div>
-                    #{f'<div style="display:flex;justify-content:space-between;color:#047857;margin-bottom:6px;"><span>Discount ({int(discount_rate)}%)</span><span class="mono">-${discount_amt:.2f}</span></div>' if discount_amt > 0 else ''}
-                   # <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:10px;">
-                      #  <span>Tax ({int(tax_rate)}%)</span>
-                      #  <span class="mono">${tax_amt:.2f}</span>
-                   # </div>
-                  #  <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#111827;border-top:1px solid #F3F4F6;padding-top:10px;margin-bottom:12px;">
-                    #    <span>Grand Total</span>
-                   #     <span class="mono">${grand_total:.2f}</span>
-                #    </div>
-               # </div>
-              #  """, 
+               f"""
+               <div style="border-top:1px solid #E5E7EB;padding-top:14px;margin-top:8px;font-size:12.5px;">
+                    <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:6px;">
+                        <span>Subtotal</span>
+                        <span class="mono">${subtotal:.2f}</span>
+                    </div>
+                    {f'<div style="display:flex;justify-content:space-between;color:#047857;margin-bottom:6px;"><span>Discount ({int(discount_rate)}%)</span><span class="mono">-${discount_amt:.2f}</span></div>' if discount_amt > 0 else ''}
+                    <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:10px;">
+                        <span>Tax ({int(tax_rate)}%)</span>
+                        <span class="mono">${tax_amt:.2f}</span>
+                    </div>
+                   <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#111827;border-top:1px solid #F3F4F6;padding-top:10px;margin-bottom:12px;">
+                        <span>Grand Total</span>
+                        <span class="mono">${grand_total:.2f}</span>
+                    </div>
+                </div>
+                """, 
                 unsafe_allow_html=True,
             )
 
