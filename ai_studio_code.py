@@ -649,24 +649,25 @@ if st.session_state.active_tab == "billing":
 
    
 # Current Bill: empty cart or products
+
 if not st.session_state.cart:
     st.markdown(
         """
         <div style="padding:48px 12px;text-align:center;color:#9CA3AF;font-size:12.5px;">
-            <div style="margin-bottom:4px;">No items added to the bill yet.</div>
+            <div>No items added to the bill yet.</div>
             <div style="font-size:11.5px;">Select items from the catalog on the left.</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # Default values for an empty cart
     subtotal = 0.0
     tax_rate = 5.0
     discount_rate = 0.0
     payment_mode = "Card"
 
 else:
+    # Display cart items
     for idx, item in enumerate(list(st.session_state.cart)):
         ic1, ic2, ic3, ic4, ic5 = st.columns(
             [2.4, 0.55, 0.55, 1.0, 0.5],
@@ -675,21 +676,12 @@ else:
 
         with ic1:
             st.markdown(
-                f"""
-                <div style="line-height:1.3;">
-                    <div style="font-size:12.5px;font-weight:600;color:#111827;">
-                        {item['name']}
-                    </div>
-                    <div class="mono" style="font-size:11px;color:#6B7280;">
-                        ${item['price']:.2f} × {item['quantity']} · {item['batch']}
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
+                f"**{item['name']}**  \n"
+                f"${item['price']:.2f} × {item['quantity']} · {item['batch']}"
             )
 
         with ic2:
-            if st.button("−", key=f"dec_{item['id']}", use_container_width=True):
+            if st.button("-", key=f"dec_{item['id']}", use_container_width=True):
                 if item["quantity"] > 1:
                     st.session_state.cart[idx]["quantity"] -= 1
                 else:
@@ -708,38 +700,30 @@ else:
 
         with ic4:
             line_total = item["price"] * item["quantity"]
-            st.markdown(
-                f"<div class='mono' style='font-size:12.5px;font-weight:700;"
-                f"text-align:right;color:#111827;'>${line_total:.2f}</div>",
-                unsafe_allow_html=True,
-            )
+            st.markdown(f"**${line_total:.2f}**")
 
         with ic5:
             if st.button("✕", key=f"rem_{item['id']}", use_container_width=True):
                 st.session_state.cart.pop(idx)
                 st.rerun()
 
-    st.markdown("<hr style='margin:10px 0;border-color:#F3F4F6;'/>",
-                unsafe_allow_html=True)
+    st.markdown("---")
 
     t_c1, t_c2, t_c3 = st.columns(3)
 
     with t_c1:
         tax_rate = st.selectbox(
-            "Tax (%)", [5.0, 0.0, 12.0, 18.0],
-            index=0, key="sel_tax"
+            "Tax (%)", [5.0, 0.0, 12.0, 18.0], index=0, key="sel_tax"
         )
 
     with t_c2:
         discount_rate = st.selectbox(
-            "Discount (%)", [0.0, 5.0, 10.0, 15.0],
-            index=0, key="sel_disc"
+            "Discount (%)", [0.0, 5.0, 10.0, 15.0], index=0, key="sel_disc"
         )
 
     with t_c3:
         payment_mode = st.selectbox(
-            "Payment", ["Card", "Cash", "UPI", "Digital"],
-            index=0, key="sel_pay"
+            "Payment", ["Card", "Cash", "UPI", "Digital"], key="sel_pay"
         )
 
     subtotal = round(
@@ -747,59 +731,18 @@ else:
         2,
     )
 
-
-# Always calculate totals, even when the cart is empty
-discount_amt = round(subtotal * discount_rate / 100.0, 2)
+# Calculate totals outside the if/else block
+discount_amt = round(subtotal * discount_rate / 100, 2)
 taxable = max(0.0, subtotal - discount_amt)
-tax_amt = round(taxable * tax_rate / 100.0, 2)
+tax_amt = round(taxable * tax_rate / 100, 2)
 grand_total = round(taxable + tax_amt, 2)
 
+st.markdown(f"Subtotal: ${subtotal:.2f}")
+if discount_amt > 0:
+    st.markdown(f"Discount: -${discount_amt:.2f}")
+st.markdown(f"Tax ({tax_rate:.0f}%): ${tax_amt:.2f}")
+st.markdown(f"### Grand Total: ${grand_total:.2f}")
 
-# Display the bill summary
-st.markdown(
-    f"""
-    <div style="border-top:1px solid #E5E7EB;padding-top:14px;
-                margin-top:8px;font-size:12.5px;">
-
-        <div style="display:flex;justify-content:space-between;
-                    color:#4B5563;margin-bottom:6px;">
-            <span>Subtotal</span>
-            <span class="mono">${subtotal:.2f}</span>
-        </div>
-
-        {f'''
-        <div style="display:flex;justify-content:space-between;
-                    color:#047857;margin-bottom:6px;">
-            <span>Discount ({int(discount_rate)}%)</span>
-            <span class="mono">-${discount_amt:.2f}</span>
-        </div>
-        ''' if discount_amt > 0 else ''}
-
-        <div style="display:flex;justify-content:space-between;
-                    color:#4B5563;margin-bottom:10px;">
-            <span>Tax ({int(tax_rate)}%)</span>
-            <span class="mono">${tax_amt:.2f}</span>
-        </div>
-
-        <div style="display:flex;justify-content:space-between;
-                    font-size:16px;font-weight:700;color:#111827;
-                    border-top:1px solid #F3F4F6;padding-top:10px;
-                    margin-bottom:12px;">
-            <span>Grand Total</span>
-            <span class="mono">${grand_total:.2f}</span>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-checkout_clicked = st.button(
-    "✓ Generate Bill & Update Stock",
-    key="generate_bill_btn",
-    type="primary",
-    disabled=(len(st.session_state.cart) == 0),
-    use_container_width=True,
-)
 
 # =============================================================================
 # TAB 2: INVENTORY MANAGEMENT SCREEN
