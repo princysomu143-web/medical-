@@ -176,6 +176,26 @@ inject_preview_css()
 # -----------------------------------------------------------------------------
 # SEED MEDICAL SHOP DATA & CSV PERSISTENCE
 # -----------------------------------------------------------------------------
+DEFAULT_PRODUCTS = [
+    {"id": "MED-001", "name": "Paracetamol 500mg (Dolo)", "sku": "PAR-500", "barcode": "8901234567890", "category": "Pain Relief", "batch_number": "B-8491", "manufacturer": "Micro Labs", "schedule": "OTC", "dosage_form": "Strip of 15", "price": 4.50, "stock": 45, "min_stock": 15, "expiry_date": "2027-08-30"},
+    {"id": "MED-002", "name": "Amoxicillin 500mg Capsules", "sku": "AMX-500", "barcode": "8901112223334", "category": "Antibiotics", "batch_number": "B-7721", "manufacturer": "Cipla Ltd", "schedule": "Schedule H", "dosage_form": "Strip of 10", "price": 8.50, "stock": 4, "min_stock": 12, "expiry_date": "2026-11-20"},
+    {"id": "MED-003", "name": "Cetirizine 10mg (Cetzine)", "sku": "CET-010", "barcode": "8904445556667", "category": "Allergy", "batch_number": "B-9023", "manufacturer": "Dr. Reddy Labs", "schedule": "OTC", "dosage_form": "Strip of 10", "price": 3.75, "stock": 35, "min_stock": 10, "expiry_date": "2027-04-15"},
+    {"id": "MED-004", "name": "Azithromycin 500mg (Azee)", "sku": "AZI-500", "barcode": "8907778889991", "category": "Antibiotics", "batch_number": "B-6102", "manufacturer": "Sun Pharma", "schedule": "Rx", "dosage_form": "Strip of 5", "price": 12.00, "stock": 5, "min_stock": 10, "expiry_date": "2027-10-31"},
+    {"id": "MED-005", "name": "Omeprazole 20mg (Omez)", "sku": "OMZ-020", "barcode": "8903332221115", "category": "Gastric", "batch_number": "B-4190", "manufacturer": "Dr. Reddy Labs", "schedule": "OTC", "dosage_form": "Strip of 20", "price": 6.20, "stock": 2, "min_stock": 10, "expiry_date": "2026-10-14"},
+    {"id": "MED-006", "name": "Dextromethorphan Cough Syrup 100ml", "sku": "SYR-100", "barcode": "8906667778882", "category": "Allergy", "batch_number": "B-5211", "manufacturer": "Abbott Healthcare", "schedule": "OTC", "dosage_form": "Bottle 100ml", "price": 9.50, "stock": 22, "min_stock": 8, "expiry_date": "2027-03-25"},
+    {"id": "MED-007", "name": "Metformin 500mg SR (Glycomet)", "sku": "MET-500", "barcode": "8909990001118", "category": "Supplements", "batch_number": "B-3382", "manufacturer": "USV Pharma", "schedule": "Rx", "dosage_form": "Strip of 10", "price": 5.20, "stock": 40, "min_stock": 15, "expiry_date": "2028-01-10"},
+    {"id": "MED-008", "name": "Vitamin C 500mg Chewable (Limcee)", "sku": "VIT-500", "barcode": "8905554443339", "category": "Supplements", "batch_number": "B-1088", "manufacturer": "Abbott", "schedule": "OTC", "dosage_form": "Strip of 15", "price": 4.80, "stock": 60, "min_stock": 20, "expiry_date": "2027-09-30"},
+    {"id": "MED-009", "name": "Povidone Iodine 10% Ointment 20g", "sku": "OIN-020", "barcode": "8902221114446", "category": "First Aid", "batch_number": "B-0412", "manufacturer": "Win-Medicare", "schedule": "General", "dosage_form": "Tube 20g", "price": 7.50, "stock": 3, "min_stock": 8, "expiry_date": "2026-10-05"},
+    {"id": "MED-010", "name": "Digital Upper Arm BP Monitor", "sku": "DEV-001", "barcode": "8908889990003", "category": "First Aid", "batch_number": "LOT-2026", "manufacturer": "Omron Healthcare", "schedule": "General", "dosage_form": "Device Unit", "price": 48.00, "stock": 3, "min_stock": 5, "expiry_date": "2030-12-31"},
+]
+
+DEFAULT_SALES = [
+    {"id": "sale-101", "invoice_number": "MED-2610-0001", "timestamp": "2026-10-22 10:15:00", "customer_name": "Robert Langdon", "customer_phone": "555-0144", "customer_age": 54, "doctor_name": "Dr. S. K. Mehta", "prescription_no": "RX-9941", "items_summary": "Metformin 500mg SR (Glycomet) x3 ($15.60); Paracetamol 500mg (Dolo) x2 ($9.00)", "items_count": 5, "subtotal": 24.60, "tax": 1.23, "discount": 0.00, "total": 25.83, "payment_method": "Card"},
+    {"id": "sale-102", "invoice_number": "MED-2610-0002", "timestamp": "2026-10-23 12:30:00", "customer_name": "Priya Sharma", "customer_phone": "555-0188", "customer_age": 31, "doctor_name": "Dr. Anita Roy", "prescription_no": "RX-8812", "items_summary": "Cetirizine 10mg (Cetzine) x2 ($7.50); Dextromethorphan Cough Syrup 100ml x1 ($9.50); Vitamin C 500mg Chewable (Limcee) x2 ($9.60)", "items_count": 5, "subtotal": 26.60, "tax": 1.33, "discount": 0.00, "total": 27.93, "payment_method": "UPI"},
+    {"id": "sale-103", "invoice_number": "MED-2610-0003", "timestamp": "2026-10-24 09:45:00", "customer_name": "Thomas Wright", "customer_phone": "555-0122", "customer_age": 42, "doctor_name": "Dr. Keith Vance", "prescription_no": "RX-7734", "items_summary": "Paracetamol 500mg (Dolo) x4 ($18.00); Amoxicillin 500mg Capsules x2 ($17.00)", "items_count": 6, "subtotal": 35.00, "tax": 1.75, "discount": 0.00, "total": 36.75, "payment_method": "Cash"},
+]
+
+
 def load_products() -> pd.DataFrame:
     if not os.path.exists(PRODUCTS_FILE):
         df = pd.DataFrame(DEFAULT_PRODUCTS)
@@ -386,7 +406,13 @@ with nav_cols[4]:
     ):
         st.session_state.active_tab = "csv"
         st.rerun()
-
+with nav_cols[5]:
+    if st.button("⊕ New Bill", key="nav_new_bill", type="primary", use_container_width=True):
+        st.session_state.cart = []
+        st.session_state.last_invoice = None
+        st.session_state.scan_feedback = None
+        st.session_state.active_tab = "billing"
+        st.rerun()
 
 st.markdown("<hr style='margin: 0.5rem 0 1.5rem 0; border-color:#E5E7EB;'/>", unsafe_allow_html=True)
 
@@ -513,11 +539,11 @@ if st.session_state.active_tab == "billing":
 
             c1, c2, c3 = st.columns(3)
             with c1:
-                cust_name = st.text_input("Customer Name *", placeholder="e.g. Somesh", key="in_cust_name")
+                cust_name = st.text_input("Customer Name *", placeholder="e.g. Alex Rivera", key="in_cust_name")
             with c2:
                 cust_phone = st.text_input("Phone Number *", placeholder="e.g. 555-0199", key="in_cust_phone")
             with c3:
-                cust_age_str = st.text_input("Customer Age *", placeholder="e.g. 21", key="in_cust_age")
+                cust_age_str = st.text_input("Customer Age *", placeholder="e.g. 32", key="in_cust_age")
 
             doc_name = ""
             rx_no = ""
@@ -669,9 +695,9 @@ if st.session_state.active_tab == "billing":
                     unsafe_allow_html=True,
                 )
                 subtotal = 0.0
-                tax_rate = 0.0
+                tax_rate = 5.0
                 discount_rate = 0.0
-                payment_mode = "Cash"
+                payment_mode = "Card"
             else:
                 for idx, item in enumerate(list(st.session_state.cart)):
                     ic1, ic2, ic3, ic4, ic5 = st.columns([2.4, 0.55, 0.55, 1.0, 0.5], vertical_alignment="center")
@@ -715,11 +741,11 @@ if st.session_state.active_tab == "billing":
                 st.markdown("<hr style='margin:10px 0;border-color:#F3F4F6;'/>", unsafe_allow_html=True)
                 t_c1, t_c2, t_c3 = st.columns(3)
                 with t_c1:
-                    tax_rate = st.selectbox("Tax (%)", [0.0, 5.0, 12.0, 18.0], index=0, key="sel_tax")
+                    tax_rate = st.selectbox("Tax (%)", [5.0, 0.0, 12.0, 18.0], index=0, key="sel_tax")
                 with t_c2:
                     discount_rate = st.selectbox("Discount (%)", [0.0, 5.0, 10.0, 15.0], index=0, key="sel_disc")
                 with t_c3:
-                    payment_mode = st.selectbox("Payment", ["Cash", "Card", "UPI", "Digital"], index=0, key="sel_pay")
+                    payment_mode = st.selectbox("Payment", ["Card", "Cash", "UPI", "Digital"], index=0, key="sel_pay")
 
                 subtotal = round(sum(i["price"] * i["quantity"] for i in st.session_state.cart), 2)
 
@@ -729,8 +755,8 @@ if st.session_state.active_tab == "billing":
             grand_total = round(taxable + tax_amt, 2)
 
             st.markdown(
-               f"""
-               <div style="border-top:1px solid #E5E7EB;padding-top:14px;margin-top:8px;font-size:12.5px;">
+                f"""
+                <div style="border-top:1px solid #E5E7EB;padding-top:14px;margin-top:8px;font-size:12.5px;">
                     <div style="display:flex;justify-content:space-between;color:#4B5563;margin-bottom:6px;">
                         <span>Subtotal</span>
                         <span class="mono">${subtotal:.2f}</span>
@@ -740,12 +766,12 @@ if st.session_state.active_tab == "billing":
                         <span>Tax ({int(tax_rate)}%)</span>
                         <span class="mono">${tax_amt:.2f}</span>
                     </div>
-                   <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#111827;border-top:1px solid #F3F4F6;padding-top:10px;margin-bottom:12px;">
+                    <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#111827;border-top:1px solid #F3F4F6;padding-top:10px;margin-bottom:12px;">
                         <span>Grand Total</span>
                         <span class="mono">${grand_total:.2f}</span>
                     </div>
                 </div>
-                """, 
+                """,
                 unsafe_allow_html=True,
             )
 
@@ -903,7 +929,7 @@ elif st.session_state.active_tab == "inventory":
                 fc1, fc2, fc3, fc4 = st.columns(4)
                 with fc1:
                     f_name = st.text_input("Medicine Name *", placeholder="e.g. Ibuprofen 400mg")
-                    f_price = st.number_input("Unit Price (Rs) *", min_value=0.10, value=6.50, step=0.50)
+                    f_price = st.number_input("Unit Price ($) *", min_value=0.10, value=6.50, step=0.50)
                 with fc2:
                     f_sku = st.text_input("SKU Code", placeholder="e.g. IBU-400")
                     f_stock = st.number_input("Initial Stock *", min_value=0, value=40, step=1)
