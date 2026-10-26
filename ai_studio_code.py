@@ -176,24 +176,6 @@ inject_preview_css()
 # -----------------------------------------------------------------------------
 # SEED MEDICAL SHOP DATA & CSV PERSISTENCE
 # -----------------------------------------------------------------------------
-DEFAULT_PRODUCTS = [
-    {"id": "MED-001", "name": "Paracetamol 500mg (Dolo)", "sku": "PAR-500", "barcode": "8901234567890", "category": "Pain Relief", "batch_number": "B-8491", "manufacturer": "Micro Labs", "schedule": "OTC", "dosage_form": "Strip of 15", "price": 4.50, "stock": 45, "min_stock": 15, "expiry_date": "2027-08-30"},
-    {"id": "MED-002", "name": "Amoxicillin 500mg Capsules", "sku": "AMX-500", "barcode": "8901112223334", "category": "Antibiotics", "batch_number": "B-7721", "manufacturer": "Cipla Ltd", "schedule": "Schedule H", "dosage_form": "Strip of 10", "price": 8.50, "stock": 4, "min_stock": 12, "expiry_date": "2026-11-20"},
-    {"id": "MED-003", "name": "Cetirizine 10mg (Cetzine)", "sku": "CET-010", "barcode": "8904445556667", "category": "Allergy", "batch_number": "B-9023", "manufacturer": "Dr. Reddy Labs", "schedule": "OTC", "dosage_form": "Strip of 10", "price": 3.75, "stock": 35, "min_stock": 10, "expiry_date": "2027-04-15"},
-    {"id": "MED-004", "name": "Azithromycin 500mg (Azee)", "sku": "AZI-500", "barcode": "8907778889991", "category": "Antibiotics", "batch_number": "B-6102", "manufacturer": "Sun Pharma", "schedule": "Rx", "dosage_form": "Strip of 5", "price": 12.00, "stock": 5, "min_stock": 10, "expiry_date": "2027-10-31"},
-    {"id": "MED-005", "name": "Omeprazole 20mg (Omez)", "sku": "OMZ-020", "barcode": "8903332221115", "category": "Gastric", "batch_number": "B-4190", "manufacturer": "Dr. Reddy Labs", "schedule": "OTC", "dosage_form": "Strip of 20", "price": 6.20, "stock": 2, "min_stock": 10, "expiry_date": "2026-10-14"},
-    {"id": "MED-006", "name": "Dextromethorphan Cough Syrup 100ml", "sku": "SYR-100", "barcode": "8906667778882", "category": "Allergy", "batch_number": "B-5211", "manufacturer": "Abbott Healthcare", "schedule": "OTC", "dosage_form": "Bottle 100ml", "price": 9.50, "stock": 22, "min_stock": 8, "expiry_date": "2027-03-25"},
-    {"id": "MED-007", "name": "Metformin 500mg SR (Glycomet)", "sku": "MET-500", "barcode": "8909990001118", "category": "Supplements", "batch_number": "B-3382", "manufacturer": "USV Pharma", "schedule": "Rx", "dosage_form": "Strip of 10", "price": 5.20, "stock": 40, "min_stock": 15, "expiry_date": "2028-01-10"},
-    {"id": "MED-008", "name": "Vitamin C 500mg Chewable (Limcee)", "sku": "VIT-500", "barcode": "8905554443339", "category": "Supplements", "batch_number": "B-1088", "manufacturer": "Abbott", "schedule": "OTC", "dosage_form": "Strip of 15", "price": 4.80, "stock": 60, "min_stock": 20, "expiry_date": "2027-09-30"},
-    {"id": "MED-009", "name": "Povidone Iodine 10% Ointment 20g", "sku": "OIN-020", "barcode": "8902221114446", "category": "First Aid", "batch_number": "B-0412", "manufacturer": "Win-Medicare", "schedule": "General", "dosage_form": "Tube 20g", "price": 7.50, "stock": 3, "min_stock": 8, "expiry_date": "2026-10-05"},
-    {"id": "MED-010", "name": "Digital Upper Arm BP Monitor", "sku": "DEV-001", "barcode": "8908889990003", "category": "First Aid", "batch_number": "LOT-2026", "manufacturer": "Omron Healthcare", "schedule": "General", "dosage_form": "Device Unit", "price": 48.00, "stock": 3, "min_stock": 5, "expiry_date": "2030-12-31"},
-]
-
-DEFAULT_SALES = [
-    {"id": "sale-101", "invoice_number": "MED-2610-0001", "timestamp": "2026-10-22 10:15:00", "customer_name": "Robert Langdon", "customer_phone": "555-0144", "customer_age": 54, "doctor_name": "Dr. S. K. Mehta", "prescription_no": "RX-9941", "items_summary": "Metformin 500mg SR (Glycomet) x3 ($15.60); Paracetamol 500mg (Dolo) x2 ($9.00)", "items_count": 5, "subtotal": 24.60, "tax": 1.23, "discount": 0.00, "total": 25.83, "payment_method": "Card"},
-    {"id": "sale-102", "invoice_number": "MED-2610-0002", "timestamp": "2026-10-23 12:30:00", "customer_name": "Priya Sharma", "customer_phone": "555-0188", "customer_age": 31, "doctor_name": "Dr. Anita Roy", "prescription_no": "RX-8812", "items_summary": "Cetirizine 10mg (Cetzine) x2 ($7.50); Dextromethorphan Cough Syrup 100ml x1 ($9.50); Vitamin C 500mg Chewable (Limcee) x2 ($9.60)", "items_count": 5, "subtotal": 26.60, "tax": 1.33, "discount": 0.00, "total": 27.93, "payment_method": "UPI"},
-    {"id": "sale-103", "invoice_number": "MED-2610-0003", "timestamp": "2026-10-24 09:45:00", "customer_name": "Thomas Wright", "customer_phone": "555-0122", "customer_age": 42, "doctor_name": "Dr. Keith Vance", "prescription_no": "RX-7734", "items_summary": "Paracetamol 500mg (Dolo) x4 ($18.00); Amoxicillin 500mg Capsules x2 ($17.00)", "items_count": 6, "subtotal": 35.00, "tax": 1.75, "discount": 0.00, "total": 36.75, "payment_method": "Cash"},
-]
 
 
 def load_products() -> pd.DataFrame:
@@ -539,11 +521,11 @@ if st.session_state.active_tab == "billing":
 
             c1, c2, c3 = st.columns(3)
             with c1:
-                cust_name = st.text_input("Customer Name *", placeholder="e.g. Alex Rivera", key="in_cust_name")
+                cust_name = st.text_input("Customer Name *", placeholder="e.g. Somesh", key="in_cust_name")
             with c2:
-                cust_phone = st.text_input("Phone Number *", placeholder="e.g. 555-0199", key="in_cust_phone")
+                cust_phone = st.text_input("Phone Number *", placeholder="e.g. 9999999999", key="in_cust_phone")
             with c3:
-                cust_age_str = st.text_input("Customer Age *", placeholder="e.g. 32", key="in_cust_age")
+                cust_age_str = st.text_input("Customer Age *", placeholder="e.g. 20", key="in_cust_age")
 
             doc_name = ""
             rx_no = ""
